@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete History by Keyword</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 10px;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            margin-bottom: 10px;
+			color:#ffffff;
+			background-color:#3399ff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+	<h2>Delete History by Keyword</h2>
+    <input type="text" id="keywordInput" placeholder="Enter keyword">
+    <button id="searchButton">Search History</button>
+    <ul id="historyList"></ul>
+    <button id="deleteButton" disabled>Delete Selected History</button>
+    <script src="popup.js"></script>
+</body>
+
+</html>
