@@ -1,52 +1,88 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const keywordInput = document.getElementById('keywordInput');
-    const searchButton = document.getElementById('searchButton');
-    const historyList = document.getElementById('historyList');
-    const deleteButton = document.getElementById('deleteButton');
+// popup.js
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 
-    searchButton.addEventListener('click', function () {
-        const keyword = keywordInput.value;
-        if (keyword) {
-            chrome.runtime.sendMessage({ action: 'searchHistory', keyword: keyword }, function (results) {
-                if (chrome.runtime.lastError) {
-                    console.error('Error:', chrome.runtime.lastError.message);
-                    return;
-                }
-                historyList.innerHTML = '';
-                results.forEach(function (historyItem, index) {
-                    const listItem = document.createElement('li');
-                    const link = document.createElement('a');
-                    link.href = historyItem.url;
-                    link.textContent = historyItem.title || 'No title available';
-                    link.target = '_blank';
+function highlightKeywords(text, keywords) {
+    if (!keywords.length) return escapeHtml(text);
+    
+    const escapedKeywords = [...new Set(keywords)]
+        .sort((a, b) => b.length - a.length)
+        .map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    
+    const regex = new RegExp(`(${escapedKeywords.join('|')})`, 'gi');
+    return escapeHtml(text)
+        .replace(regex, '<span style="color:red;font-weight:bold">$1</span>')
+        .replace(/\n/g, '<br>');
+}
 
-                    const img = document.createElement('img');
-                    img.src = chrome.runtime.getURL('icon16.png');
-                    img.style.marginRight = '5px';
+document.addEventListener('DOMContentLoaded', () => {
+    const dom = {
+        keywordInput: document.getElementById('keywordInput'),
+        searchButton: document.getElementById('searchButton'),
+        deleteButton: document.getElementById('deleteButton'),
+        historyList: document.getElementById('historyList')
+    };
 
-                    link.prepend(img);
-                    listItem.appendChild(link);
-                    historyList.appendChild(listItem);
-
-                    if (index % 2 === 1) {
-                        listItem.style.backgroundColor = '#f0f0f0';
-                    }
-                });
-                if (results.length > 0) {
-                    deleteButton.disabled = false;
-                } else {
-                    deleteButton.disabled = true;
-                }
+    dom.searchButton.addEventListener('click', () => {
+        const rawKeywords = dom.keywordInput.value.trim();
+        const keywords = rawKeywords.split(/\s+/).filter(k => k);
+        
+        if (!keywords.length) return;
+        
+        chrome.runtime.sendMessage({ 
+            action: 'searchHistory', 
+            keyword: rawKeywords 
+        }, response => {
+            if (chrome.runtime.lastError) {
+                console.error('Search error:', chrome.runtime.lastError.message);
+                return;
+            }
+            
+            dom.historyList.innerHTML = '';
+            dom.deleteButton.disabled = !response.length;
+            
+            response.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.style.backgroundColor = index % 2 ? '#f8f9fa' : 'transparent';
+                
+                const a = document.createElement('a');
+                a.href = item.url;
+                a.target = '_blank';
+                a.style.display = 'flex';
+                a.style.alignItems = 'center';
+                
+                const icon = document.createElement('img');
+                icon.src = chrome.runtime.getURL('icon16.png');
+                icon.style.marginRight = '8px';
+                
+                const content = document.createElement('div');
+                content.innerHTML = `
+                    <div>${highlightKeywords(item.title || 'Untitled', keywords)}</div>
+                    <div style="font-size:0.8em;color:#666">
+                        ${highlightKeywords(item.url, keywords)}
+                    </div>
+                `;
+                
+                a.append(icon, content);
+                li.append(a);
+                dom.historyList.append(li);
             });
-        }
+        });
     });
 
-    deleteButton.addEventListener('click', function () {
-        const keyword = keywordInput.value;
-        if (keyword) {
-            chrome.runtime.sendMessage({ action: 'deleteHistory', keyword: keyword });
-            historyList.innerHTML = '';
-            deleteButton.disabled = true;
-        }
+    dom.deleteButton.addEventListener('click', () => {
+        const keyword = dom.keywordInput.value.trim();
+        if (!keyword) return;
+        
+        chrome.runtime.sendMessage({ 
+            action: 'deleteHistory', 
+            keyword: keyword 
+        }, () => {
+            dom.historyList.innerHTML = '';
+            dom.deleteButton.disabled = true;
+        });
     });
 });
