@@ -1,8 +1,9 @@
-function filterHistoryItems(results, keyword) {
+// background.js
+function filterHistoryItems(results, keywords) {
     return results.filter(item => {
-        const url = item.url.toLowerCase() || '';
-        const title = item.title.toLowerCase() || '';
-        return url.includes(keyword) || title.includes(keyword);
+        const url = (item.url || '').toLowerCase();
+        const title = (item.title || '').toLowerCase();
+        return keywords.some(k => url.includes(k) || title.includes(k));
     });
 }
 
@@ -11,36 +12,37 @@ function getAllHistoryWithPagination(startTime = 0, allResults = [], callback) {
         text: '',
         startTime: startTime,
         maxResults: 10000
-    }, function (results) {
+    }, function(results) {
         if (chrome.runtime.lastError) {
             console.error('History search error:', chrome.runtime.lastError.message);
             callback(allResults);
             return;
         }
         allResults = allResults.concat(results);
-        if (results.length === 10000) {
-            const lastResult = results[results.length - 1];
-            getAllHistoryWithPagination(lastResult.lastVisitTime, allResults, callback);
-        } else {
+        results.length === 10000 ? 
+            getAllHistoryWithPagination(results[results.length - 1].lastVisitTime, allResults, callback) :
             callback(allResults);
-        }
     });
 }
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'searchHistory') {
-        const keyword = message.keyword;
-        getAllHistoryWithPagination(0, [], function (allHistory) {
-            const filteredResults = filterHistoryItems(allHistory, keyword.toLowerCase());
-            sendResponse(filteredResults);
+        const rawKeywords = message.keyword || '';
+        const keywords = [...new Set(rawKeywords.toLowerCase().split(/\s+/).filter(k => k))];
+        
+        getAllHistoryWithPagination(0, [], allHistory => {
+            sendResponse(filterHistoryItems(allHistory, keywords));
         });
         return true;
-    } else if (message.action === 'deleteHistory') {
-        const keyword = message.keyword;
-        getAllHistoryWithPagination(0, [], function (allHistory) {
-            const filteredResults = filterHistoryItems(allHistory, keyword.toLowerCase());
-            filteredResults.forEach(function (historyItem) {
-                chrome.history.deleteUrl({ url: historyItem.url });
+    }
+    
+    if (message.action === 'deleteHistory') {
+        const rawKeywords = message.keyword || '';
+        const keywords = [...new Set(rawKeywords.toLowerCase().split(/\s+/).filter(k => k))];
+        
+        getAllHistoryWithPagination(0, [], allHistory => {
+            filterHistoryItems(allHistory, keywords).forEach(item => {
+                chrome.history.deleteUrl({ url: item.url });
             });
         });
     }
