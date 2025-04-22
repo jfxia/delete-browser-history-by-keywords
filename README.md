@@ -4,8 +4,10 @@ An extension for Edge browser to delete history by keywords.
 
 Search browser history by multiple keywords,then delete all matched items.
 
-![popup window](/assets/popup-window.png)s
+![popup window](/assets/popup-window.png)
 
 ![search results](/assets/search.png)
 
-The extentsion can be loaded in edge://extensions
+The extentsion can be installed from Microsoft Edge Addon store:
+
+https://microsoftedge.microsoft.com/addons/detail/delete-browser-history-by/locjoaacdjjeigbiegfbkbcgfnphkcme
