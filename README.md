@@ -1,8 +1,7 @@
-<div style="text-align:center">
-    <img src="/assets/icon300.png" width="100" height="100">
-</div>
+<h1>
+  <img src="/assets/icon300.png" width="80" height="80" style="vertical-align: middle;"> Delete Browser History by Keywords
+</h1>
 
-# delete-browser-history-by-keywords
 
 An extension for Edge browser to delete history by keywords.
 
