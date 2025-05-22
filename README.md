@@ -10,8 +10,8 @@ Search browser history by multiple keywords,then delete all matched items.The ex
 
 https://microsoftedge.microsoft.com/addons/detail/delete-browser-history-by/locjoaacdjjeigbiegfbkbcgfnphkcme
 
-![popup window](/assets/popup-window.png)
+<img src="/assets/popup-window.png" width="30%">
 
-![search results](/assets/search.png)
+<img src="/assets/search.png" width="30%">
 
 
