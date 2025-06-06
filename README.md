@@ -14,3 +14,4 @@ https://microsoftedge.microsoft.com/addons/detail/delete-browser-history-by/locj
 <img src="/assets/search.png" width="30%">
 
 
+**Don't ask what the program does.Those who get it, get it.**
