@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Delete Browser History by Keywords",
     "author":"Jingfeng Xia",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": "Delete browser history by keywords",
     "action": {
         "default_popup": "popup.html",

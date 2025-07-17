@@ -41,11 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-
-            dom.historyList.innerHTML = '';
-            dom.deleteButton.disabled = !response.length;
+            const sortedResponse = response.sort((a, b) => {
+                return b.lastVisitTime - a.lastVisitTime;
+            });
             
-            response.forEach((item, index) => {
+            dom.historyList.innerHTML = '';
+            dom.deleteButton.disabled = !sortedResponse.length;
+            
+            sortedResponse.forEach((item, index) => {
                 const li = document.createElement('li');
                 li.style.backgroundColor = index % 2 ? '#f8f9fa' : 'transparent';
                 
@@ -64,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div>${highlightKeywords(item.title || 'Untitled', keywords)}</div>
                     <div style="font-size:0.8em;color:#666">
                         ${highlightKeywords(item.url, keywords)}
+                    </div>
+                    <div style="font-size:0.7em;color:#999">
+                        ${new Date(item.lastVisitTime).toLocaleString()}
                     </div>
                 `;
                 
