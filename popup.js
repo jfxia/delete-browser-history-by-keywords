@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+
             dom.historyList.innerHTML = '';
             dom.deleteButton.disabled = !response.length;
             
