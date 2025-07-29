@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "Eliminar historial del navegador por palabras clave",
+    "description": "Nombre de la extensión"
+  },
+  "extensionDescription": {
+    "message": "Eliminar historial del navegador por palabras clave",
+    "description": "Descripción de la extensión"
+  },
+  "inputPlaceholder": {
+    "message": "Ingrese palabras clave",
+    "description": "Texto de marcador de posición para el campo de entrada de palabras clave"
+  },
+  "searchButton": {
+    "message": "Buscar historial",
+    "description": "Texto del botón de búsqueda"
+  },
+  "deleteButton": {
+    "message": "Eliminar historial coincidente",
+    "description": "Texto del botón de eliminación"
+  },
+  "untitled": {
+    "message": "Sin título",
+    "description": "Texto para elementos sin título"
+  }
+}

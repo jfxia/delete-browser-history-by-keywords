@@ -18,6 +18,19 @@ function highlightKeywords(text, keywords) {
         .replace(/\n/g, '<br>');
 }
 
+function getMessage(messageName) {
+    return chrome.i18n.getMessage(messageName);
+}
+
+function setInterfaceText() {
+    document.getElementById('pageTitle').textContent = getMessage('extensionName');
+    document.getElementById('extensionTitle').textContent = getMessage('extensionName');
+    document.getElementById('keywordInput').placeholder = getMessage('inputPlaceholder');
+    document.getElementById('searchButton').textContent = getMessage('searchButton');
+    document.getElementById('deleteButton').textContent = getMessage('deleteButton');
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const dom = {
         keywordInput: document.getElementById('keywordInput'),
@@ -26,11 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
         historyList: document.getElementById('historyList')
     };
 
+    setInterfaceText();
+
     dom.searchButton.addEventListener('click', () => {
         const rawKeywords = dom.keywordInput.value.trim();
         const keywords = rawKeywords.split(/\s+/).filter(k => k);
         
         if (!keywords.length) return;
+
         
         chrome.runtime.sendMessage({ 
             action: 'searchHistory', 
@@ -47,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             dom.historyList.innerHTML = '';
             dom.deleteButton.disabled = !sortedResponse.length;
+			
+			if( sortedResponse.length > 0 ){
+				document.getElementById('deleteButton').style.color = "#000000";
+				document.getElementById('deleteButton').style.backgroundColor = "#ffcc00";
+				document.getElementById('deleteButton').disabled = false;
+			}else{
+				document.getElementById('deleteButton').style.color = "#ffffff";
+				document.getElementById('deleteButton').style.backgroundColor = "#c0c0c0";
+				document.getElementById('deleteButton').disabled = true;
+			}
             
             sortedResponse.forEach((item, index) => {
                 const li = document.createElement('li');
@@ -63,8 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon.style.marginRight = '8px';
                 
                 const content = document.createElement('div');
+
                 content.innerHTML = `
-                    <div>${highlightKeywords(item.title || 'Untitled', keywords)}</div>
+                    <div>${highlightKeywords(item.title || getMessage('untitled'), keywords)}</div>
                     <div style="font-size:0.8em;color:#666">
                         ${highlightKeywords(item.url, keywords)}
                     </div>
@@ -90,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }, () => {
             dom.historyList.innerHTML = '';
             dom.deleteButton.disabled = true;
+			dom.deleteButton.style.color = "#ffffff";
+			dom.deleteButton.style.backgroundColor = "#c0c0c0";
         });
     });
 });

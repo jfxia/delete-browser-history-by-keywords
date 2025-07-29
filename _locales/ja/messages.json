@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "キーワードでブラウザ履歴を削除",
+    "description": "拡張機能の名前"
+  },
+  "extensionDescription": {
+    "message": "キーワードでブラウザ履歴を削除する",
+    "description": "拡張機能の説明"
+  },
+  "inputPlaceholder": {
+    "message": "キーワードを入力",
+    "description": "キーワード入力欄のプレースホルダーテキスト"
+  },
+  "searchButton": {
+    "message": "履歴を検索",
+    "description": "検索ボタンのテキスト"
+  },
+  "deleteButton": {
+    "message": "一致した履歴を削除",
+    "description": "削除ボタンのテキスト"
+  },
+  "untitled": {
+    "message": "無題",
+    "description": "タイトルのない項目のテキスト"
+  }
+}

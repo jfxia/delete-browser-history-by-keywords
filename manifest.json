@@ -1,9 +1,10 @@
 {
     "manifest_version": 3,
-    "name": "Delete Browser History by Keywords",
+    "name": "__MSG_extensionName__",
     "author":"Jingfeng Xia",
-    "version": "1.0.3",
-    "description": "Delete browser history by keywords",
+    "version": "1.0.5",
+    "description": "__MSG_extensionDescription__",
+    "default_locale": "en",  
     "action": {
         "default_popup": "popup.html",
         "default_icon": {

@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "Supprimer l'historique du navigateur par mots-clés",
+    "description": "Nom de l'extension"
+  },
+  "extensionDescription": {
+    "message": "Supprimer l'historique du navigateur par mots-clés",
+    "description": "Description de l'extension"
+  },
+  "inputPlaceholder": {
+    "message": "Entrez des mots-clés",
+    "description": "Texte d'indication pour le champ de saisie des mots-clés"
+  },
+  "searchButton": {
+    "message": "Rechercher dans l'historique",
+    "description": "Texte du bouton de recherche"
+  },
+  "deleteButton": {
+    "message": "Supprimer l'historique correspondant",
+    "description": "Texte du bouton de suppression"
+  },
+  "untitled": {
+    "message": "Sans titre",
+    "description": "Texte pour les éléments sans titre"
+  }
+}

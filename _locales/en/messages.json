@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "Delete Browser History by Keywords",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "Delete browser history by keywords",
+    "description": "Description of the extension"
+  },
+  "inputPlaceholder": {
+    "message": "Keyword1 Keyword2",
+    "description": "Placeholder text for keyword input"
+  },
+  "searchButton": {
+    "message": "Search History",
+    "description": "Text for search button"
+  },
+  "deleteButton": {
+    "message": "Delete Matched History",
+    "description": "Text for delete button"
+  },
+  "untitled": {
+    "message": "Untitled",
+    "description": "Text for items without title"
+  }
+}
